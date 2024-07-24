@@ -4,31 +4,92 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dynamic Quote Generator</title>
+  <style>
+    /* Basic styling */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    h1 {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    #quoteDisplay {
+      margin: 20px;
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      background-color: #f9f9f9;
+    }
+
+    button {
+      display: block;
+      margin: 20px auto;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    input[type="text"] {
+      display: block;
+      margin: 10px auto;
+      padding: 10px;
+      font-size: 16px;
+      width: 80%;
+      box-sizing: border-box;
+    }
+
+    /* Styling for notification messages */
+    .notification {
+      position: fixed;
+      bottom: 10px;
+      right: 10px;
+      padding: 10px;
+      border-radius: 5px;
+      color: #fff;
+      font-size: 14px;
+      z-index: 1000;
+      opacity: 0.9;
+    }
+
+    .notification.success {
+      background-color: #4caf50;
+    }
+
+    .notification.error {
+      background-color: #f44336;
+    }
+
+    /* Styling for category filter */
+    #categoryFilter {
+      display: block;
+      margin: 20px auto;
+      padding: 10px;
+      font-size: 16px;
+      width: 80%;
+      box-sizing: border-box;
+    }
+  </style>
 </head>
 <body>
   <h1>Dynamic Quote Generator</h1>
-  <div>
-    <label for="categoryFilter">Filter by Category:</label>
-    <select id="categoryFilter" onchange="filterQuotes()">
-      <option value="all">All Categories</option>
-      <!-- Dynamically populated categories -->
-    </select>
-  </div>
   <div id="quoteDisplay"></div>
   <button id="newQuote">Show New Quote</button>
-  
+  <select id="categoryFilter" onchange="filterQuotes()">
+    <option value="all">All Categories</option>
+    <!-- Dynamically populated categories -->
+  </select>
   <div>
     <input id="newQuoteText" type="text" placeholder="Enter a new quote" />
     <input id="newQuoteCategory" type="text" placeholder="Enter quote category" />
     <button onclick="addQuote()">Add Quote</button>
   </div>
-  
-  <!-- Export Quotes Button -->
-  <button id="exportQuotes">Export Quotes</button>
-  
-  <!-- Import File Input -->
   <input type="file" id="importFile" accept=".json" onchange="importFromJsonFile(event)" />
-
+  <button onclick="exportToJsonFile()">Export Quotes</button>
   <script src="script.js"></script>
 </body>
 </html>
