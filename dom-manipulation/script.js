@@ -16,7 +16,7 @@ function displayRandomQuote() {
 document.getElementById('newQuote').addEventListener('click', displayRandomQuote);
 
 // دالة لإضافة اقتباس جديد
-function addQuote() {
+function addNewQuote() {
   const newQuoteText = document.getElementById('newQuoteText').value.trim();
   const newQuoteCategory = document.getElementById('newQuoteCategory').value.trim();
 
