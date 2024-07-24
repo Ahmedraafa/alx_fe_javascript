@@ -48,7 +48,7 @@ function addQuote() {
   if (newQuoteText && newQuoteCategory) {
     quotes.push({ text: newQuoteText, category: newQuoteCategory });
     saveQuotes();
-    updateCategoryFilter();
+    populateCategories(); // Update the categories in the dropdown
     document.getElementById('newQuoteText').value = '';
     document.getElementById('newQuoteCategory').value = '';
     displayQuotes();
@@ -56,7 +56,7 @@ function addQuote() {
 }
 
 // Function to update category filter options
-function updateCategoryFilter() {
+function populateCategories() {
   const categoryFilter = document.getElementById('categoryFilter');
   const categories = new Set(quotes.map(q => q.category));
   categoryFilter.innerHTML = '<option value="all">All Categories</option>';
@@ -94,7 +94,7 @@ function importFromJsonFile(event) {
     const importedQuotes = JSON.parse(event.target.result);
     quotes = importedQuotes;
     saveQuotes();
-    updateCategoryFilter();
+    populateCategories(); // Update categories after importing
     displayQuotes();
     alert('Quotes imported successfully!');
   };
@@ -104,7 +104,7 @@ function importFromJsonFile(event) {
 // Initialize the application
 function init() {
   loadQuotes();
-  updateCategoryFilter();
+  populateCategories(); // Populate categories on initialization
   createAddQuoteForm();
   document.getElementById('newQuote').addEventListener('click', showRandomQuote);
   document.getElementById('categoryFilter').addEventListener('change', filterQuotes);
