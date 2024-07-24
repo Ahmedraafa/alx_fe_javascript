@@ -124,6 +124,30 @@ async function fetchQuotesFromServer() {
   }
 }
 
+// Function to post quotes to the server
+async function postQuotesToServer() {
+  try {
+    const response = await fetch(API_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(quotes)
+    });
+
+    if (response.ok) {
+      const result = await response.json();
+      console.log('Quotes posted to server:', result);
+    } else {
+      console.error('Failed to post quotes to the server:', response.statusText);
+      alert('Failed to post quotes to the server.');
+    }
+  } catch (error) {
+    console.error('Error posting quotes to server:', error);
+    alert('Failed to post quotes to the server.');
+  }
+}
+
 // Function to sync data with the server
 async function syncWithServer() {
   const serverQuotes = await fetchQuotesFromServer();
@@ -135,6 +159,9 @@ async function syncWithServer() {
     displayQuotes();
     alert('Data synchronized with server successfully!');
   }
+  
+  // Post local quotes to server (for demonstration purposes)
+  await postQuotesToServer();
 }
 
 // Initialize the application
