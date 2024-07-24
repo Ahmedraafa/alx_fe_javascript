@@ -1,24 +1,24 @@
-// مصفوفة لتخزين الاقتباسات
+// Array to hold quotes
 let quotes = [
   { text: "The only limit to our realization of tomorrow is our doubts of today.", category: "Motivation" },
   { text: "In the end, we will remember not the words of our enemies, but the silence of our friends.", category: "Wisdom" },
-  // أضف اقتباسات أخرى هنا إذا لزم الأمر
+  // Add more initial quotes if needed
 ];
 
-// دالة لعرض اقتباس عشوائي
-function displayRandomQuote() {
+// Function to display a random quote
+function showRandomQuote() {
   const randomIndex = Math.floor(Math.random() * quotes.length);
   const quote = quotes[randomIndex];
   document.getElementById('quoteDisplay').innerText = `"${quote.text}" - ${quote.category}`;
 }
 
-// حدث للزر "Show New Quote" لعرض اقتباس جديد
-document.getElementById('newQuote').addEventListener('click', displayRandomQuote);
+// Event listener for showing new quote
+document.getElementById('newQuote').addEventListener('click', showRandomQuote);
 
-// دالة لإضافة اقتباس جديد
+// Function to add a new quote
 function addQuote() {
-  const newQuoteText = document.getElementById('newQuoteText').value.trim();
-  const newQuoteCategory = document.getElementById('newQuoteCategory').value.trim();
+  const newQuoteText = document.getElementById('newQuoteText').value;
+  const newQuoteCategory = document.getElementById('newQuoteCategory').value;
 
   if (newQuoteText && newQuoteCategory) {
     quotes.push({ text: newQuoteText, category: newQuoteCategory });
