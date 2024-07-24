@@ -4,6 +4,9 @@ let quotes = [
   { text: "Life is what happens when you're busy making other plans.", category: "Life" }
 ];
 
+// Base URL for the mock API
+const API_URL = 'https://jsonplaceholder.typicode.com/posts';
+
 // Function to save quotes to local storage
 function saveQuotes() {
   localStorage.setItem('quotes', JSON.stringify(quotes));
@@ -52,6 +55,7 @@ function addQuote() {
     document.getElementById('newQuoteText').value = '';
     document.getElementById('newQuoteCategory').value = '';
     displayQuotes();
+    syncWithServer(); // Sync with server after adding a new quote
   }
 }
 
@@ -96,9 +100,34 @@ function importFromJsonFile(event) {
     saveQuotes();
     populateCategories(); // Update categories after importing
     displayQuotes();
+    syncWithServer(); // Sync with server after importing
     alert('Quotes imported successfully!');
   };
   fileReader.readAsText(event.target.files[0]);
+}
+
+// Function to sync data with the server
+async function syncWithServer() {
+  try {
+    // Fetch quotes from the server
+    const response = await fetch(API_URL);
+    const serverQuotes = await response.json();
+    
+    // Simple conflict resolution: server data takes precedence
+    // Assuming server data structure matches local data structure
+    if (serverQuotes.length > 0) {
+      quotes = serverQuotes.map(q => ({
+        text: q.title, // Adjust mapping if needed
+        category: q.body // Adjust mapping if needed
+      }));
+      saveQuotes();
+      displayQuotes();
+      alert('Data synchronized with server successfully!');
+    }
+  } catch (error) {
+    console.error('Error syncing with server:', error);
+    alert('Failed to sync data with the server.');
+  }
 }
 
 // Initialize the application
