@@ -1,3 +1,4 @@
+
 // Array to hold the quotes
 let quotes = [
   { text: "The only limit to our realization of tomorrow is our doubts of today.", category: "Inspiration" },
@@ -56,6 +57,8 @@ function addQuote() {
     document.getElementById('newQuoteCategory').value = '';
     displayQuotes();
     syncQuotes(); // Sync with server after adding a new quote
+  } else {
+    alert("Please enter both quote text and category.");
   }
 }
 
@@ -89,6 +92,7 @@ function exportToJsonFile() {
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
+  alert('Quotes exported successfully!');
 }
 
 // Function to import quotes from a JSON file
@@ -101,7 +105,7 @@ function importFromJsonFile(event) {
     populateCategories(); // Update categories after importing
     displayQuotes();
     syncQuotes(); // Sync with server after importing
-    showNotification('Quotes imported successfully!', 'success');
+    alert('Quotes imported successfully!');
   };
   fileReader.readAsText(event.target.files[0]);
 }
@@ -119,7 +123,7 @@ async function fetchQuotesFromServer() {
     }));
   } catch (error) {
     console.error('Error fetching quotes from server:', error);
-    showNotification('Failed to fetch quotes from the server.', 'error');
+    alert('Failed to fetch quotes from the server.');
     return [];
   }
 }
@@ -140,11 +144,11 @@ async function postQuotesToServer() {
       console.log('Quotes posted to server:', result);
     } else {
       console.error('Failed to post quotes to the server:', response.statusText);
-      showNotification('Failed to post quotes to the server.', 'error');
+      alert('Failed to post quotes to the server.');
     }
   } catch (error) {
     console.error('Error posting quotes to server:', error);
-    showNotification('Failed to post quotes to the server.', 'error');
+    alert('Failed to post quotes to the server.');
   }
 }
 
@@ -158,23 +162,11 @@ async function syncQuotes() {
     quotes = serverQuotes;
     saveQuotes();
     displayQuotes();
-    showNotification('Data synchronized with server successfully!', 'success');
+    alert('Quotes synced with server!');
   }
 
   // Post local quotes to server (for demonstration purposes)
   await postQuotesToServer();
-}
-
-// Function to show notifications
-function showNotification(message, type) {
-  const notification = document.createElement('div');
-  notification.className = `notification ${type}`;
-  notification.textContent = message;
-  document.body.appendChild(notification);
-
-  setTimeout(() => {
-    document.body.removeChild(notification);
-  }, 3000); // Notification disappears after 3 seconds
 }
 
 // Function to start periodic synchronization
@@ -211,4 +203,3 @@ function init() {
 
 // Call init function on page load
 init();
-
