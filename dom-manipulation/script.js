@@ -165,6 +165,11 @@ async function syncQuotes() {
   await postQuotesToServer();
 }
 
+// Function to start periodic synchronization
+function startPeriodicSync(interval = 60000) { // Default to 60 seconds
+  setInterval(syncQuotes, interval);
+}
+
 // Initialize the application
 function init() {
   loadQuotes();
@@ -187,6 +192,9 @@ function init() {
   } else {
     displayQuotes();
   }
+
+  // Start periodic sync with server
+  startPeriodicSync(); // You can adjust the interval as needed
 }
 
 // Call init function on page load
