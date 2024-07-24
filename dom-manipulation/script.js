@@ -55,7 +55,7 @@ function addQuote() {
     document.getElementById('newQuoteText').value = '';
     document.getElementById('newQuoteCategory').value = '';
     displayQuotes();
-    syncWithServer(); // Sync with server after adding a new quote
+    syncQuotes(); // Sync with server after adding a new quote
   }
 }
 
@@ -100,7 +100,7 @@ function importFromJsonFile(event) {
     saveQuotes();
     populateCategories(); // Update categories after importing
     displayQuotes();
-    syncWithServer(); // Sync with server after importing
+    syncQuotes(); // Sync with server after importing
     alert('Quotes imported successfully!');
   };
   fileReader.readAsText(event.target.files[0]);
@@ -148,8 +148,9 @@ async function postQuotesToServer() {
   }
 }
 
-// Function to sync data with the server
-async function syncWithServer() {
+// Function to synchronize quotes between local storage and server
+async function syncQuotes() {
+  // Fetch quotes from the server
   const serverQuotes = await fetchQuotesFromServer();
 
   // Simple conflict resolution: server data takes precedence
@@ -159,7 +160,7 @@ async function syncWithServer() {
     displayQuotes();
     alert('Data synchronized with server successfully!');
   }
-  
+
   // Post local quotes to server (for demonstration purposes)
   await postQuotesToServer();
 }
