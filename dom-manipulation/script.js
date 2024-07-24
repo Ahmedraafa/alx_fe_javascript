@@ -101,7 +101,7 @@ function importFromJsonFile(event) {
     populateCategories(); // Update categories after importing
     displayQuotes();
     syncQuotes(); // Sync with server after importing
-    alert('Quotes imported successfully!');
+    showNotification('Quotes imported successfully!', 'success');
   };
   fileReader.readAsText(event.target.files[0]);
 }
@@ -119,7 +119,7 @@ async function fetchQuotesFromServer() {
     }));
   } catch (error) {
     console.error('Error fetching quotes from server:', error);
-    alert('Failed to fetch quotes from the server.');
+    showNotification('Failed to fetch quotes from the server.', 'error');
     return [];
   }
 }
@@ -140,11 +140,11 @@ async function postQuotesToServer() {
       console.log('Quotes posted to server:', result);
     } else {
       console.error('Failed to post quotes to the server:', response.statusText);
-      alert('Failed to post quotes to the server.');
+      showNotification('Failed to post quotes to the server.', 'error');
     }
   } catch (error) {
     console.error('Error posting quotes to server:', error);
-    alert('Failed to post quotes to the server.');
+    showNotification('Failed to post quotes to the server.', 'error');
   }
 }
 
@@ -158,11 +158,23 @@ async function syncQuotes() {
     quotes = serverQuotes;
     saveQuotes();
     displayQuotes();
-    alert('Data synchronized with server successfully!');
+    showNotification('Data synchronized with server successfully!', 'success');
   }
 
   // Post local quotes to server (for demonstration purposes)
   await postQuotesToServer();
+}
+
+// Function to show notifications
+function showNotification(message, type) {
+  const notification = document.createElement('div');
+  notification.className = `notification ${type}`;
+  notification.textContent = message;
+  document.body.appendChild(notification);
+
+  setTimeout(() => {
+    document.body.removeChild(notification);
+  }, 3000); // Notification disappears after 3 seconds
 }
 
 // Function to start periodic synchronization
@@ -199,3 +211,4 @@ function init() {
 
 // Call init function on page load
 init();
+
